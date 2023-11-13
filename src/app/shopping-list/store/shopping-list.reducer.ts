@@ -11,10 +11,6 @@ export interface State {
 }
 
 
-export interface AppState {
-  shoppingList: State;
-}
-
 const initialState: State = {
   ingredients: [
     new Ingredient('Apples', 5),
