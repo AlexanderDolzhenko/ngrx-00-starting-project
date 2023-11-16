@@ -33,6 +33,7 @@ const handleAuthentication = (
     userId: userId,
     token: token,
     expirationDate: expirationDate,
+    redirect: true
   });
 };
 
@@ -125,8 +126,11 @@ authRedirect = createEffect(
   () =>
     this.actions$.pipe(
       ofType(AuthActions.LOGIN, AuthActions.LOGOUT),
-      tap(() => {
-        this.router.navigate(['/']);
+      tap((authSuccessAction: AuthActions.Login) => {
+        if (authSuccessAction.payload.redirect) {
+          this.router.navigate(['/']);
+        }
+
       })
     ),
   { dispatch: false }
@@ -154,7 +158,7 @@ autoLogin = createEffect(() =>
         );
 
         if (loadedUser.token) {
-        
+
           const expirationDuration =
             new Date(userData._tokenExpirationDate).getTime() -
             new Date().getTime();
@@ -164,6 +168,7 @@ autoLogin = createEffect(() =>
             userId: loadedUser.id,
             token: loadedUser.token,
             expirationDate: new Date(userData._tokenExpirationDate),
+            redirect: false
           });
 
         }
