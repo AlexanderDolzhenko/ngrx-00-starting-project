@@ -1,59 +1,33 @@
-import { Action } from "@ngrx/store";
+import { createAction, props } from '@ngrx/store';
 
-export const LOGIN_START = '[Auth] Login Start';
-export const LOGIN = '[Auth] Login';
-export const LOGOUT = '[Auth] Logout';
-export const LOGIN_FAIL = '[Auth] Login Fail';
-export const SIGNUP_START = '[Auth] Signup Start';
-export const CLEAR_ERROR = '[Auth] Clear Error';
-export const AUTO_LOGIN = '[Auth] Auto Login';
-
-export class Login implements Action {
-  readonly type = LOGIN;
-
-
-  constructor(public payload: {
+export const authenticateSuccess = createAction(
+  '[Auth] Login',
+  props<{
     email: string;
     userId: string;
     token: string;
     expirationDate: Date;
     redirect: boolean;
+  }>()
+);
 
-  }) {}
+export const logout = createAction('[Auth] Logout');
 
-}
+export const loginStart = createAction(
+  '[Auth] Login Start',
+  props<{ email: string; password: string }>()
+);
 
+export const authenticateFail = createAction(
+  '[Auth] Login Fail',
+  props<{ error: string }>()
+);
 
-export class Logout implements Action {
-  readonly type = LOGOUT;
+export const signupStart = createAction(
+  '[Auth] Signup Start',
+  props<{ email: string; password: string }>()
+);
 
-}
+export const clearError = createAction('[Auth] Clear Error');
 
-export class LoginStart implements Action {
-  readonly type = LOGIN_START;
-
-  constructor(public payload: { email: string; password: string}) {}
-}
-
-export class LoginFail implements Action {
-  readonly type = LOGIN_FAIL;
-
-  constructor(public payload: string) {}
-}
-
-export class SignupStart implements Action {
-  readonly type = SIGNUP_START;
-
-  constructor(public payload:{ email: string; password: string}) {}
-}
-
-
-export class ClearError implements Action {
-  readonly type = CLEAR_ERROR;
-}
-
-export class AutoLogin implements Action {
-  readonly type = AUTO_LOGIN;
-}
-
-export type AuthActions = Login | Logout | LoginStart | LoginFail| SignupStart | ClearError | AutoLogin ;
+export const autoLogin = createAction('[Auth] Auto Login');
